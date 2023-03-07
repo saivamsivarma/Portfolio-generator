@@ -5,12 +5,14 @@ export const TextArea = (props) => {
         label, // label for the textArea
         rows, // textArea attribute which tell how many row textArea should occupy default value: 3, possiable value: All Integers
         placeholder, // placeholder for textArea
-        divClassName // className for the div which contains textArea
+        divClassName, // className for the div which contains textArea,
+        defaultValue,
+        onChange
     } = props
     return (
         <div className={divClassName}>
             <label htmlFor={labelfor} className="form-label">{label}</label>
-            <textarea className={`form-control ${fieldClassName}`} rows={rows ?? 3} placeholder={placeholder} />
+            <textarea className={`form-control ${fieldClassName}`} rows={rows ?? 3} placeholder={placeholder} onChange={onChange} defaultValue={defaultValue}/>
         </div>
     )
 }
