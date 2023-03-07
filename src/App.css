@@ -1,3 +1,7 @@
 #home-row {
   height: 100vh;
 }
+
+label {
+  font-weight: 600;
+}
