@@ -6,7 +6,7 @@ import { Button } from "../components/Button";
 import { useNavigate } from "react-router-dom";
 
 export function Template(props) {
-    const { user,setStep } = props;
+    const { user,updateStep } = props;
     const redirect = useNavigate();
     const soicalIcons = [
         {
@@ -35,7 +35,7 @@ export function Template(props) {
 
     const handleEdit = () => {
         redirect('/');
-        setStep(0);
+        updateStep(0);
     }
     return (
         <div className="container-fluid">

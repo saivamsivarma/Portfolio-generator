@@ -7,7 +7,7 @@ import { TextArea } from "../components/TextArea";
 import DefaultUserImage from "../assets/user.svg";
 
 export function Home(props) {
-    const { step, setStep, user, setUser } = props;
+    const { step, updateStep, user, setUser } = props;
     const fileInput = useRef(null); // useRef used for persist values between render
 
     // for navigation
@@ -68,8 +68,7 @@ export function Home(props) {
 
     const handleForm = () => {
         if (step < 3) {
-            setStep(step + 1);
-            localStorage.setItem("step", step + 1);
+            updateStep(step + 1);
         }
         let user = {
             basicDetails: {
@@ -92,15 +91,14 @@ export function Home(props) {
     }
 
     const handleBack = () => {
-        if (step >= 0) setStep(step - 1);
-        localStorage.setItem("step", step - 1);
+        if (step >= 0) updateStep(step - 1);
     }
 
     return (
         <div className="container-fluid"> {/* className:container-fluid -- Using Bootstrap container from https://getbootstrap.com/docs/5.3/layout/containers/ which adds padding for content in X(left-right) direction */}
             <div className="row justify-content-center align-items-center" id="home-row"> {/* className:row -- Using Bootstrap row from https://getbootstrap.com/docs/5.3/layout/grid/ which adds grid properties to inner content; className: align-items-center used for center content horizontally className:justify-content-center used for center content vertically  ref: https://getbootstrap.com/docs/5.3/utilities/flex/ */}
                 <div className="col col-md-6 col-lg-5"> {/* className:col-10 -- Each row consists of 12 columns col==is class name where 10 say that this element will occupy 5 columns space in a rowref = https://getbootstrap.com/docs/5.3/layout/grid/*/}
-                    <h1 className="text-center">Portfolio <span className="text-primary">Generator</span></h1>
+                    <h1 className="text-center text-light">Portfolio <span>Generator</span></h1>
                     <div className="card shadow p-2"> {/* className: card -- adds css for card effect ref=https://getbootstrap.com/docs/5.3/components/card/; shadow -- adss shadow css for shadow effect ref=https://getbootstrap.com/docs/5.3/utilities/shadows/ ; p-5 --adds padding 5rem to div ref= https://getbootstrap.com/docs/5.3/utilities/spacing/#margin-and-padding;*/}
                         <form className="p-4">
                             {/* Swicth case to render section  based on step  */}

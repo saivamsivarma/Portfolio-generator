@@ -24,11 +24,15 @@ function App() {
     }
   })
   const [step, setStep] = useState(localStorage.getItem('step') ? parseInt(localStorage.getItem('step')) : 0); // stepper contains value; setStepper update the stepper value;
+  const updateStep = (step) =>{
+    setStep(step);
+    localStorage.setItem('step',step);
+  }
   return (
     <Router>
       <Routes>
-        <Route path='/' element={step < 4 ? <Home step={step} setStep={setStep} user={user} setUser={setUser} /> : <Navigate replace to="/template"/>} /> {/* When Brower hits "http:localhost:3000/"" it will display home page*/}
-        <Route path='/template' element={<Template user={user} setStep={setStep}/>} />
+        <Route path='/' element={step < 4 ? <Home step={step} updateStep={updateStep} user={user} setUser={setUser} /> : <Navigate replace to="/template"/>} /> {/* When Brower hits "http:localhost:3000/"" it will display home page*/}
+        <Route path='/template' element={<Template user={user} updateStep={updateStep}/>} />
       </Routes>
     </Router>
   );
