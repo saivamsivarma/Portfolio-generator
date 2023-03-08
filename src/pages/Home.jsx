@@ -88,7 +88,7 @@ export function Home(props) {
         }
         setUser(user);
         localStorage.setItem("userDetails", JSON.stringify(user));
-        redirect('/template');
+        if(step===3) redirect('/template');
     }
 
     const handleBack = () => {
