@@ -1,5 +1,5 @@
-// import { Link } from "react-router-dom"; //importing Link from react-router-dom
-import { useRef, useState } from "react"; // importing useState fom react
+import { useNavigate } from "react-router-dom"; //importing Link from react-router-dom
+import { useEffect, useRef, useState } from "react"; // importing useState fom react
 import { Button } from "../components/Button"; // importing Button component from components dir
 import { Input } from "../components/Input"; // importing Input component from components dir
 import { Select } from "../components/Select";
@@ -7,20 +7,40 @@ import { TextArea } from "../components/TextArea";
 import DefaultUserImage from "../assets/user.svg";
 
 export function Home(props) {
-    const { step,setStep, user, setUser } = props;
+    const { step, setStep, user, setUser } = props;
     const fileInput = useRef(null); // useRef used for persist values between render
 
+    // for navigation
+    const redirect = useNavigate();
     // preview the image function
     const handleUpload = e => {
         // checking the length
-        if (e.target.files.length) {
-            //updating state value
-            setImage({
-                preview: URL.createObjectURL(e.target.files[0]), // used for preview
-                raw: e.target.files[0] // used for upload
-            })
+        if (e.target.files.length > 0) imgPreview(e.target.files[0]);
+    }
+
+    const imgPreview = (image) => {
+        if (image) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result.replace("data:", "").replace(/^.+,/, "");
+                localStorage.setItem("image", result);
+                const image = localStorage.getItem("image");
+                imageLoad(image);
+            }
+            reader.readAsDataURL(image);
         }
     }
+
+    const imageLoad = (image) =>{
+        var previewImg = document.getElementById("preview");
+        if(previewImg) previewImg.src = "data:image/jpg;base64," + image;
+    }
+
+    // useEffect is use to load the data for each render
+    useEffect(() => {
+        let image = localStorage.getItem("image")
+        if(image) imageLoad(image)
+    })
 
     // roles to add data to select Component
     const roles = [
@@ -35,8 +55,7 @@ export function Home(props) {
         }
     ]
 
-    const [image, setImage] = useState(user.image ? user.image : { preview: '', raw: '' }) // upload and preview image;
-    console.log(user.image)
+    // const [image, setImage] = useState(user.image ? user.image : { preview: '', raw: '' }) // upload and preview image;
     const [firstName, setFirstName] = useState(user.basicDetails.firstName);
     const [lastName, setLastName] = useState(user.basicDetails.lastName);
     const [contact, setContact] = useState(user.basicDetails.contact);
@@ -65,11 +84,11 @@ export function Home(props) {
                 linkedIn: linkedIn,
                 github: github,
                 dribbble: dribbble
-            },
-            image: image
+            }
         }
         setUser(user);
         localStorage.setItem("userDetails", JSON.stringify(user));
+        redirect('/template');
     }
 
     const handleBack = () => {
@@ -111,7 +130,7 @@ export function Home(props) {
                                         return <section className="row gy-3">
                                             <div className="col-12 text-center">
                                                 <div className="mt-n1">
-                                                    <img src={image.preview ? image.preview : DefaultUserImage} alt="" height="180px" className="rounded-pill" width="180px" />
+                                                    <img src={DefaultUserImage} alt="" height="180px" className="rounded-pill" width="180px" id="preview" />
                                                     <Input type="file" className="d-none" onChange={handleUpload} imageRef={fileInput} fileAccept="image/*" />
                                                     <Button value="Upload" className="btn-outline-primary" click={() => fileInput.current.click()} />
                                                 </div>

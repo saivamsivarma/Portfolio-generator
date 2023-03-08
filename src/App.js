@@ -22,7 +22,7 @@ function App() {
       github: '',
       dribbble: ''
     },
-    image: { preview: '', raw: '' }
+    // image: { preview: '', raw: '' }
   })
   const [step, setStep] = useState(localStorage.getItem('step') ? parseInt(localStorage.getItem('step')) : 0); // stepper contains value; setStepper update the stepper value;
   return (
